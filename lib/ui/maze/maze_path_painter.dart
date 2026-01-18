@@ -4,18 +4,25 @@ import '../../utils/edge.dart';
 class MazePathPainter extends CustomPainter {
   final Edge? start;
   final Edge? end;
+  final List<Edge> walls;
   final Color color;
   final double animationValue;
 
   MazePathPainter({
-    this.start,
-    this.end,
+    required this.start,
+    required this.end,
+    required this.walls,
     required this.color,
     this.animationValue = 1.0,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
+    _drawPath(canvas, size);
+    _drawWalls(canvas, size);
+  }
+
+  void _drawPath(Canvas canvas, Size size) {
     if (start == null && end == null) return;
 
     final pulseProgress = (1 - (animationValue * 2 - 1).abs());
@@ -61,6 +68,46 @@ class MazePathPainter extends CustomPainter {
         path.lineTo(getOffset(start!).dx, getOffset(start!).dy);
       } else {
         path.lineTo(getOffset(end!).dx, getOffset(end!).dy);
+      }
+    }
+
+    canvas.drawPath(path, paint);
+  }
+
+  void _drawWalls(Canvas canvas, Size size) {
+    if (walls.isEmpty) return;
+
+    final paint = Paint()
+      ..color = Colors.black
+      ..strokeWidth = size.width * .1
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.butt;
+
+    final path = Path();
+
+    final (double, double) topLeftCorner = (0, 0);
+    final (double, double) topRightCorner = (size.width, 0);
+    final (double, double) bottomLeftCorner = (0, size.height);
+    final (double, double) bottomRightCorner = (size.width, size.height);
+
+    for (final edge in walls) {
+      switch (edge) {
+        case Edge.top:
+          path.moveTo(topLeftCorner.$1, topLeftCorner.$2);
+          path.lineTo(topRightCorner.$1, topRightCorner.$2);
+          break;
+        case Edge.right:
+          path.moveTo(topRightCorner.$1, topRightCorner.$2);
+          path.lineTo(bottomRightCorner.$1, bottomRightCorner.$2);
+          break;
+        case Edge.bottom:
+          path.moveTo(bottomRightCorner.$1, bottomRightCorner.$2);
+          path.lineTo(bottomLeftCorner.$1, bottomLeftCorner.$2);
+          break;
+        case Edge.left:
+          path.moveTo(bottomLeftCorner.$1, bottomLeftCorner.$2);
+          path.lineTo(topLeftCorner.$1, topLeftCorner.$2);
+          break;
       }
     }
 

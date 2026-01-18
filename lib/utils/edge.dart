@@ -20,4 +20,6 @@ enum Edge {
   static bool inline(Edge edge1, Edge edge2) {
     return (_value(edge1) + _value(edge2)) % 2 == 0;
   }
+
+
 }

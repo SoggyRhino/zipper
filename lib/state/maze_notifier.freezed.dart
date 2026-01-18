@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MazeNotifierState {
 
- List<(int, int)> get checkpoints; List<(int, int)> get path; int get n; int get m; bool get solved;
+ List<(int, int)> get solution; List<(int, int)> get checkpoints; Map<(int, int), List<(int, int)>> get walls; List<(int, int)> get path; int get n; int get m;
 /// Create a copy of MazeNotifierState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $MazeNotifierStateCopyWith<MazeNotifierState> get copyWith => _$MazeNotifierStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MazeNotifierState&&const DeepCollectionEquality().equals(other.checkpoints, checkpoints)&&const DeepCollectionEquality().equals(other.path, path)&&(identical(other.n, n) || other.n == n)&&(identical(other.m, m) || other.m == m)&&(identical(other.solved, solved) || other.solved == solved));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MazeNotifierState&&const DeepCollectionEquality().equals(other.solution, solution)&&const DeepCollectionEquality().equals(other.checkpoints, checkpoints)&&const DeepCollectionEquality().equals(other.walls, walls)&&const DeepCollectionEquality().equals(other.path, path)&&(identical(other.n, n) || other.n == n)&&(identical(other.m, m) || other.m == m));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(checkpoints),const DeepCollectionEquality().hash(path),n,m,solved);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(solution),const DeepCollectionEquality().hash(checkpoints),const DeepCollectionEquality().hash(walls),const DeepCollectionEquality().hash(path),n,m);
 
 @override
 String toString() {
-  return 'MazeNotifierState(checkpoints: $checkpoints, path: $path, n: $n, m: $m, solved: $solved)';
+  return 'MazeNotifierState(solution: $solution, checkpoints: $checkpoints, walls: $walls, path: $path, n: $n, m: $m)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $MazeNotifierStateCopyWith<$Res>  {
   factory $MazeNotifierStateCopyWith(MazeNotifierState value, $Res Function(MazeNotifierState) _then) = _$MazeNotifierStateCopyWithImpl;
 @useResult
 $Res call({
- List<(int, int)> checkpoints, List<(int, int)> path, int n, int m, bool solved
+ List<(int, int)> solution, List<(int, int)> checkpoints, Map<(int, int), List<(int, int)>> walls, List<(int, int)> path, int n, int m
 });
 
 
@@ -62,14 +62,15 @@ class _$MazeNotifierStateCopyWithImpl<$Res>
 
 /// Create a copy of MazeNotifierState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? checkpoints = null,Object? path = null,Object? n = null,Object? m = null,Object? solved = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? solution = null,Object? checkpoints = null,Object? walls = null,Object? path = null,Object? n = null,Object? m = null,}) {
   return _then(_self.copyWith(
-checkpoints: null == checkpoints ? _self.checkpoints : checkpoints // ignore: cast_nullable_to_non_nullable
-as List<(int, int)>,path: null == path ? _self.path : path // ignore: cast_nullable_to_non_nullable
+solution: null == solution ? _self.solution : solution // ignore: cast_nullable_to_non_nullable
+as List<(int, int)>,checkpoints: null == checkpoints ? _self.checkpoints : checkpoints // ignore: cast_nullable_to_non_nullable
+as List<(int, int)>,walls: null == walls ? _self.walls : walls // ignore: cast_nullable_to_non_nullable
+as Map<(int, int), List<(int, int)>>,path: null == path ? _self.path : path // ignore: cast_nullable_to_non_nullable
 as List<(int, int)>,n: null == n ? _self.n : n // ignore: cast_nullable_to_non_nullable
 as int,m: null == m ? _self.m : m // ignore: cast_nullable_to_non_nullable
-as int,solved: null == solved ? _self.solved : solved // ignore: cast_nullable_to_non_nullable
-as bool,
+as int,
   ));
 }
 
@@ -154,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<(int, int)> checkpoints,  List<(int, int)> path,  int n,  int m,  bool solved)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<(int, int)> solution,  List<(int, int)> checkpoints,  Map<(int, int), List<(int, int)>> walls,  List<(int, int)> path,  int n,  int m)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MazeNotifierState() when $default != null:
-return $default(_that.checkpoints,_that.path,_that.n,_that.m,_that.solved);case _:
+return $default(_that.solution,_that.checkpoints,_that.walls,_that.path,_that.n,_that.m);case _:
   return orElse();
 
 }
@@ -175,10 +176,10 @@ return $default(_that.checkpoints,_that.path,_that.n,_that.m,_that.solved);case 
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<(int, int)> checkpoints,  List<(int, int)> path,  int n,  int m,  bool solved)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<(int, int)> solution,  List<(int, int)> checkpoints,  Map<(int, int), List<(int, int)>> walls,  List<(int, int)> path,  int n,  int m)  $default,) {final _that = this;
 switch (_that) {
 case _MazeNotifierState():
-return $default(_that.checkpoints,_that.path,_that.n,_that.m,_that.solved);case _:
+return $default(_that.solution,_that.checkpoints,_that.walls,_that.path,_that.n,_that.m);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +196,10 @@ return $default(_that.checkpoints,_that.path,_that.n,_that.m,_that.solved);case 
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<(int, int)> checkpoints,  List<(int, int)> path,  int n,  int m,  bool solved)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<(int, int)> solution,  List<(int, int)> checkpoints,  Map<(int, int), List<(int, int)>> walls,  List<(int, int)> path,  int n,  int m)?  $default,) {final _that = this;
 switch (_that) {
 case _MazeNotifierState() when $default != null:
-return $default(_that.checkpoints,_that.path,_that.n,_that.m,_that.solved);case _:
+return $default(_that.solution,_that.checkpoints,_that.walls,_that.path,_that.n,_that.m);case _:
   return null;
 
 }
@@ -210,14 +211,28 @@ return $default(_that.checkpoints,_that.path,_that.n,_that.m,_that.solved);case 
 
 
 class _MazeNotifierState extends MazeNotifierState {
-  const _MazeNotifierState({final  List<(int, int)> checkpoints = const [], final  List<(int, int)> path = const [], this.n = 5, this.m = 5, this.solved = false}): _checkpoints = checkpoints,_path = path,super._();
+  const _MazeNotifierState({final  List<(int, int)> solution = const [], final  List<(int, int)> checkpoints = const [], final  Map<(int, int), List<(int, int)>> walls = const {}, final  List<(int, int)> path = const [], this.n = 5, this.m = 5}): _solution = solution,_checkpoints = checkpoints,_walls = walls,_path = path,super._();
   
+
+ final  List<(int, int)> _solution;
+@override@JsonKey() List<(int, int)> get solution {
+  if (_solution is EqualUnmodifiableListView) return _solution;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_solution);
+}
 
  final  List<(int, int)> _checkpoints;
 @override@JsonKey() List<(int, int)> get checkpoints {
   if (_checkpoints is EqualUnmodifiableListView) return _checkpoints;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_checkpoints);
+}
+
+ final  Map<(int, int), List<(int, int)>> _walls;
+@override@JsonKey() Map<(int, int), List<(int, int)>> get walls {
+  if (_walls is EqualUnmodifiableMapView) return _walls;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_walls);
 }
 
  final  List<(int, int)> _path;
@@ -229,7 +244,6 @@ class _MazeNotifierState extends MazeNotifierState {
 
 @override@JsonKey() final  int n;
 @override@JsonKey() final  int m;
-@override@JsonKey() final  bool solved;
 
 /// Create a copy of MazeNotifierState
 /// with the given fields replaced by the non-null parameter values.
@@ -241,16 +255,16 @@ _$MazeNotifierStateCopyWith<_MazeNotifierState> get copyWith => __$MazeNotifierS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MazeNotifierState&&const DeepCollectionEquality().equals(other._checkpoints, _checkpoints)&&const DeepCollectionEquality().equals(other._path, _path)&&(identical(other.n, n) || other.n == n)&&(identical(other.m, m) || other.m == m)&&(identical(other.solved, solved) || other.solved == solved));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MazeNotifierState&&const DeepCollectionEquality().equals(other._solution, _solution)&&const DeepCollectionEquality().equals(other._checkpoints, _checkpoints)&&const DeepCollectionEquality().equals(other._walls, _walls)&&const DeepCollectionEquality().equals(other._path, _path)&&(identical(other.n, n) || other.n == n)&&(identical(other.m, m) || other.m == m));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_checkpoints),const DeepCollectionEquality().hash(_path),n,m,solved);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_solution),const DeepCollectionEquality().hash(_checkpoints),const DeepCollectionEquality().hash(_walls),const DeepCollectionEquality().hash(_path),n,m);
 
 @override
 String toString() {
-  return 'MazeNotifierState(checkpoints: $checkpoints, path: $path, n: $n, m: $m, solved: $solved)';
+  return 'MazeNotifierState(solution: $solution, checkpoints: $checkpoints, walls: $walls, path: $path, n: $n, m: $m)';
 }
 
 
@@ -261,7 +275,7 @@ abstract mixin class _$MazeNotifierStateCopyWith<$Res> implements $MazeNotifierS
   factory _$MazeNotifierStateCopyWith(_MazeNotifierState value, $Res Function(_MazeNotifierState) _then) = __$MazeNotifierStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<(int, int)> checkpoints, List<(int, int)> path, int n, int m, bool solved
+ List<(int, int)> solution, List<(int, int)> checkpoints, Map<(int, int), List<(int, int)>> walls, List<(int, int)> path, int n, int m
 });
 
 
@@ -278,14 +292,15 @@ class __$MazeNotifierStateCopyWithImpl<$Res>
 
 /// Create a copy of MazeNotifierState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? checkpoints = null,Object? path = null,Object? n = null,Object? m = null,Object? solved = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? solution = null,Object? checkpoints = null,Object? walls = null,Object? path = null,Object? n = null,Object? m = null,}) {
   return _then(_MazeNotifierState(
-checkpoints: null == checkpoints ? _self._checkpoints : checkpoints // ignore: cast_nullable_to_non_nullable
-as List<(int, int)>,path: null == path ? _self._path : path // ignore: cast_nullable_to_non_nullable
+solution: null == solution ? _self._solution : solution // ignore: cast_nullable_to_non_nullable
+as List<(int, int)>,checkpoints: null == checkpoints ? _self._checkpoints : checkpoints // ignore: cast_nullable_to_non_nullable
+as List<(int, int)>,walls: null == walls ? _self._walls : walls // ignore: cast_nullable_to_non_nullable
+as Map<(int, int), List<(int, int)>>,path: null == path ? _self._path : path // ignore: cast_nullable_to_non_nullable
 as List<(int, int)>,n: null == n ? _self.n : n // ignore: cast_nullable_to_non_nullable
 as int,m: null == m ? _self.m : m // ignore: cast_nullable_to_non_nullable
-as int,solved: null == solved ? _self.solved : solved // ignore: cast_nullable_to_non_nullable
-as bool,
+as int,
   ));
 }
 

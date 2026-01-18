@@ -41,7 +41,7 @@ final class MazeNotifierProvider
   }
 }
 
-String _$mazeNotifierHash() => r'ec059775231d9a3182d68d13f963eb8f0339a9a5';
+String _$mazeNotifierHash() => r'1169bea0d2827e4d3c0932055991bed7aec34e9f';
 
 abstract class _$MazeNotifier extends $Notifier<MazeNotifierState> {
   MazeNotifierState build();

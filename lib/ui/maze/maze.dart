@@ -44,13 +44,6 @@ class _MazeState extends ConsumerState<Maze>
     final mazeNotifier = ref.read(mazeProvider.notifier);
     final mazeState = ref.watch(mazeProvider);
 
-    final size = MediaQuery.of(context).size;
-    final double cellSize =
-        (mazeState.n > mazeState.m
-            ? size.height / mazeState.n
-            : size.width / mazeState.m) *
-        .8;
-
     return GestureDetector(
       onTapDown: widget.controller.active
           ? (details) => _toggle(
@@ -78,7 +71,7 @@ class _MazeState extends ConsumerState<Maze>
     final double cellSize = min(
       size.width / m,
       size.height / n,
-    ) * 0.8;
+    ) * .95;
 
     return Center(
       child: SizedBox(

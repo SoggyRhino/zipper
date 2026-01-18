@@ -13,11 +13,12 @@ abstract class MazeNotifierState with _$MazeNotifierState {
   const MazeNotifierState._();
 
   const factory MazeNotifierState({
+    @Default([]) List<(int, int)> solution,
     @Default([]) List<(int, int)> checkpoints,
+    @Default({}) Map<(int, int), List<(int, int)>> walls,
     @Default([]) List<(int, int)> path,
     @Default(5) int n,
     @Default(5) int m,
-    @Default(false) bool solved,
   }) = _MazeNotifierState;
 
   bool isEmpty((int, int) position) => !path.contains(position);
@@ -34,26 +35,13 @@ abstract class MazeNotifierState with _$MazeNotifierState {
 
     if (pathIdx != -1) {
       if (pathIdx > 0) {
-        startEdge = _getEdge(position, path[pathIdx - 1]);
+        startEdge = position.getEdge(path[pathIdx - 1]);
       }
       if (pathIdx < path.length - 1) {
-        endEdge = _getEdge(position, path[pathIdx + 1]);
+        endEdge = position.getEdge(path[pathIdx + 1]);
       }
     }
     return (startEdge, endEdge);
-  }
-
-  Edge? _getEdge((int, int) current, (int, int) neighbor) {
-    final dx = neighbor.$1 - current.$1;
-    final dy = neighbor.$2 - current.$2;
-
-    return switch ((dx, dy)) {
-      (-1, 0) => Edge.left,
-      (1, 0) => Edge.right,
-      (0, -1) => Edge.top,
-      (0, 1) => Edge.bottom,
-      _ => null,
-    };
   }
 
   bool isWin() {
@@ -69,6 +57,10 @@ abstract class MazeNotifierState with _$MazeNotifierState {
     }
     return i == checkpoints.length && path.last == checkpoints.last;
   }
+
+  List<(int, int)> getWalls((int, int) position) {
+    return walls[position] ?? [];
+  }
 }
 
 @Riverpod(keepAlive: true)
@@ -79,7 +71,9 @@ class MazeNotifier extends _$MazeNotifier {
   }
 
   void set({
+    required List<(int, int)> solution,
     required List<(int, int)> checkpoints,
+    required Map<(int, int), List<(int, int)>> walls,
     required int n,
     required int m,
   }) async {
@@ -89,11 +83,12 @@ class MazeNotifier extends _$MazeNotifier {
     assert(n > 0 && m > 0, ['n and m must be greater than 0']);
 
     state = state.copyWith(
-      checkpoints: checkpoints,
       n: n,
       m: m,
+      solution: solution,
+      checkpoints: checkpoints,
+      walls: walls,
       path: checkpoints.isNotEmpty ? [checkpoints[0]] : [],
-      solved: false,
     );
   }
 
@@ -121,8 +116,19 @@ class MazeNotifier extends _$MazeNotifier {
     }
   }
 
-  bool validMove((int, int) position) =>
-      state.path.isEmpty || state.path.last.isAdjacent(position);
+  void reset() {
+    state = state.copyWith(path: [state.path.first]);
+  }
+
+  void solve() {
+    state = state.copyWith(path: state.solution);
+  }
+
+  bool validMove((int, int) position) {
+    if (state.path.isEmpty) return true;
+    return state.path.last.isAdjacent(position) &&
+        !isBlocked(state.path.last, position);
+  }
 
   int get n => state.n;
 
@@ -131,4 +137,8 @@ class MazeNotifier extends _$MazeNotifier {
   bool isEmpty((int, int) position) => state.isEmpty(position);
 
   bool isSelected((int, int) position) => state.isSelected(position);
+
+  bool isBlocked((int, int) start, (int, int) end) {
+    return state.walls[start]?.contains(end) ?? false;
+  }
 }

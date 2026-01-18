@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:zipper/state/maze_notifier.dart';
+import 'package:zipper/state/maze_preferences_notifier.dart';
+import 'package:zipper/utils/point_utils.dart';
 
+import '../../utils/edge.dart';
 import 'maze_path_painter.dart';
 
 class MazeTile extends ConsumerWidget {
@@ -16,17 +19,36 @@ class MazeTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isSelected = ref.watch(mazeProvider.select((maze) => maze.isSelected(position)));
-    final (start, end) = ref.watch(mazeProvider.select((maze) => maze.getEdges(position)));
-    final checkpoint = ref.watch(mazeProvider.select((maze) => maze.getCheckPoint(position)));
+    final color = ref.watch(
+      mazePreferencesProvider.select((maze) => maze.pathColor),
+    );
+
+    final isSelected = ref.watch(
+      mazeProvider.select((maze) => maze.isSelected(position)),
+    );
+    final (start, end) = ref.watch(
+      mazeProvider.select((maze) => maze.getEdges(position)),
+    );
+    final checkpoint = ref.watch(
+      mazeProvider.select((maze) => maze.getCheckPoint(position)),
+    );
+    final walls = ref
+        .watch(mazeProvider.select((maze) => maze.getWalls(position)))
+        .map((e) => position.getEdge(e))
+        .nonNulls
+        .toList(growable: false);
     final maze = ref.read(mazeProvider);
+
+
+    if (checkpoint > -1)
+      print("{$position, $checkpoint}");
 
     return GridTile(
       child: Container(
         decoration: BoxDecoration(
-          color: isSelected ? Colors.red.withAlpha(120) : Colors.transparent,
+          color: isSelected ? color.withAlpha(120) : Colors.transparent,
           borderRadius: _getRadius(position, maze.n, maze.m),
-          border: Border.all(color: Colors.black, width: 0.5),
+          border: Border.all(color: Colors.black, width: .5),
         ),
         child: Stack(
           alignment: Alignment.center,
@@ -41,7 +63,8 @@ class MazeTile extends ConsumerWidget {
                       painter: MazePathPainter(
                         start: start,
                         end: end,
-                        color: Colors.red,
+                        color: color,
+                        walls: walls,
                         animationValue: animationController.value,
                       ),
                     ),
@@ -52,15 +75,23 @@ class MazeTile extends ConsumerWidget {
             if (checkpoint > -1)
               Center(
                 child: Container(
+                  width:  36,
+                  height: 36,
+                  alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.black, width: 3),
                   ),
-                  padding: const EdgeInsets.all(8),
+
+                  // 3. Text styling adjustments
                   child: Text(
                     "${checkpoint + 1}",
-                    style: const TextStyle(fontSize: 24),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      height: 1.0, // Helps vertical centering by removing font padding
+                    ),
                   ),
                 ),
               ),
