@@ -1,4 +1,6 @@
 import 'package:confetti/confetti.dart';
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
@@ -13,7 +15,25 @@ import 'ui/maze/maze_controller.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const ProviderScope(child: MyApp()));
+
+  if (kIsWeb) {
+    runApp(
+      Directionality(
+        textDirection: TextDirection.ltr,
+        child: Container(
+          color: const Color(0xFFEEF2F5),
+          alignment: Alignment.center,
+          child: DeviceFrame(
+            device: Devices.ios.iPhone13,
+            orientation: Orientation.portrait,
+            screen: const ProviderScope(child: MyApp()),
+          ),
+        ),
+      ),
+    );
+  } else {
+    runApp(const ProviderScope(child: MyApp()));
+  }
 }
 
 class MyApp extends ConsumerStatefulWidget {
@@ -63,9 +83,7 @@ class _MyAppState extends ConsumerState<MyApp> {
 
       if (!mounted) return;
 
-      ref
-          .read(mazeProvider.notifier)
-          .set(
+      ref.read(mazeProvider.notifier).set(
             n: pref.height,
             m: pref.width,
             solution: solution.solution,

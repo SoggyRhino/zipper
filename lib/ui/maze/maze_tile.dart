@@ -43,7 +43,7 @@ class MazeTile extends ConsumerWidget {
         decoration: BoxDecoration(
           color: isSelected ? color.withAlpha(120) : Colors.transparent,
           borderRadius: _getRadius(position, maze.n, maze.m),
-          border: Border.all(color: Colors.black, width: .5),
+          border: Border.all(color: Colors.black, width: 1),
         ),
         child: Stack(
           alignment: Alignment.center,
