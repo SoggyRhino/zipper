@@ -32,7 +32,12 @@ class MazeSolver {
     final checkPoints = _generateCheckPoints(solution, checkPointCount);
     final walls = _generateWalls(solution, wallCount, n, m);
 
-    return (Solution(solution, checkPoints, walls));
+    final solutionCR = solution.map((p) => (p.$2, p.$1)).toList();
+    final checkPointsCR = checkPoints.map((p) => (p.$2, p.$1)).toList();
+    final wallsCR = walls.map((key, value) =>
+        MapEntry((key.$2, key.$1), value.map((p) => (p.$2, p.$1)).toList()));
+
+    return (Solution(solutionCR, checkPointsCR, wallsCR));
   }
 
   static List<(int, int)> _solve(int n, int m) {
@@ -168,9 +173,9 @@ class MazeSolver {
       for (int i = 0; i < 4; i++) {
         var adjacent = position + moves[(move + i) % 4];
         if (adjacent.$1 < 0 ||
-            adjacent.$1 >= m ||
+            adjacent.$1 >= n ||
             adjacent.$2 < 0 ||
-            adjacent.$2 >= n ||
+            adjacent.$2 >= m ||
             (solution.indexOf(adjacent) - randIndex).abs() == 1) {
           continue;
         }

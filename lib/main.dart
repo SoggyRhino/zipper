@@ -103,7 +103,33 @@ class _MyAppState extends ConsumerState<MyApp> {
 
     return MaterialApp(
       home: Scaffold(
-        body: _buildBody(isWin), // Pass win state here
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            return constraints.maxWidth > 600
+                ? Center(
+                    child: Container(
+                      width: 450,
+                      height: constraints.maxHeight * 0.95,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        border: Border.all(
+                          color: Colors.grey.shade300,
+                          width: 1,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                      ),
+                      child: _buildBody(isWin),
+                    ),
+                  )
+                : _buildBody(isWin);
+          },
+        ),
         floatingActionButton: !_showSettings
             ? FloatingActionButton(
                 onPressed: () => setState(() => _showSettings = !_showSettings),
@@ -119,7 +145,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       children: [
         Center(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (_legit) ...[
                 TimerWidget(timer: timer),

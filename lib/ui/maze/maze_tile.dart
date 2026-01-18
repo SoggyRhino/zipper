@@ -39,10 +39,6 @@ class MazeTile extends ConsumerWidget {
         .toList(growable: false);
     final maze = ref.read(mazeProvider);
 
-
-    if (checkpoint > -1)
-      print("{$position, $checkpoint}");
-
     return GridTile(
       child: Container(
         decoration: BoxDecoration(
