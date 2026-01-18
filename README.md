@@ -1,16 +1,21 @@
 # zipper
 
-Zip game
+Simple infinite copy of Linked-in's Zip puzzle game written in flutter, supporting web and android
+builds.
 
-## Getting Started
+## Usage
 
-This project is a starting point for a Flutter application.
+Just use the live [demo](https://soggyrhino.github.io/zipper/).
 
-A few resources to get you started if this is your first Flutter project:
+## Future Plans
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+> Not actively working on this project but if I come back these are some ideas
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Custom level editor
+- Sharable Levels (deep link + url encoded)
+- Persistent settings
+- Cool home screen with auto solving background
+
+## Contribution and Issues
+
+If you really want to then just make a pr or open an issue, might be looked at. 
