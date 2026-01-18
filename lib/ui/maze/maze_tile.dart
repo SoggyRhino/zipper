@@ -31,8 +31,7 @@ class MazeTile extends ConsumerWidget {
     final checkpoint = ref.watch(
       mazeProvider.select((maze) => maze.getCheckPoint(position)),
     );
-    final walls = ref
-        .watch(mazeProvider.select((maze) => maze.getWalls(position)))
+    final walls = ref.watch(mazeProvider).getWalls(position)
         .map((e) => position.getEdge(e))
         .nonNulls
         .toList(growable: false);

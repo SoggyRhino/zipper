@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../utils/edge.dart';
 
@@ -116,9 +117,10 @@ class MazePathPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(MazePathPainter oldDelegate) {
-    return oldDelegate.start != start ||
+    return oldDelegate.animationValue != animationValue ||
+        oldDelegate.start != start ||
         oldDelegate.end != end ||
         oldDelegate.color != color ||
-        oldDelegate.animationValue != animationValue;
+        !listEquals(oldDelegate.walls, walls);
   }
 }

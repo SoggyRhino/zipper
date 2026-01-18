@@ -45,21 +45,32 @@ class _MazeState extends ConsumerState<Maze>
     final mazeState = ref.watch(mazeProvider);
 
     return GestureDetector(
-      onTapDown: widget.controller.active
-          ? (details) => _toggle(
-              mazeNotifier,
-              details.globalPosition,
-              mazeState.n,
-              mazeState.m,
-            )
+      onPanStart: widget.controller.active
+          ? (details) {
+              final position = _toPosition(
+                details.globalPosition,
+                mazeState.n,
+                mazeState.m,
+              );
+              if (position == (-1, -1)) return;
+              pathAnimationController.reset();
+
+              if (mazeNotifier.isSelected(position)) {
+                mazeNotifier.deselectAfter(position);
+              } else if (mazeNotifier.isEmpty(position)) {
+                mazeNotifier.select(position);
+              }
+              _lastPosition = position;
+              pathAnimationController.forward();
+            }
           : null,
-      onPanUpdate: (details) => widget.controller.active
-          ? _drag(
-              mazeNotifier,
-              details.globalPosition,
-              mazeState.n,
-              mazeState.m,
-            )
+      onPanUpdate: widget.controller.active
+          ? (details) => _drag(
+                mazeNotifier,
+                details.globalPosition,
+                mazeState.n,
+                mazeState.m,
+              )
           : null,
       onPanEnd: (_) => widget.controller.active ? _endDrag() : null,
       child: _buildGrid(mazeState.n, mazeState.m),
@@ -69,9 +80,10 @@ class _MazeState extends ConsumerState<Maze>
   Widget _buildGrid(int n, int m) {
     final size = MediaQuery.of(context).size;
     final double cellSize = min(
-      size.width / m,
-      size.height / n,
-    ) * .95;
+          size.width / m,
+          size.height / n,
+        ) *
+        .95;
 
     return Center(
       child: SizedBox(
@@ -113,18 +125,6 @@ class _MazeState extends ConsumerState<Maze>
     int y = (localOffset.dy / cellHeight).floor();
 
     return (x.clamp(0, m - 1), y.clamp(0, n - 1));
-  }
-
-  void _toggle(MazeNotifier notifier, Offset offset, int n, int m) {
-    pathAnimationController.reset();
-    final position = _toPosition(offset, n, m);
-
-    if (notifier.isSelected(position)) {
-      notifier.deselectAfter(position);
-    } else if (notifier.isEmpty(position)) {
-      notifier.select(position);
-    }
-    pathAnimationController.forward();
   }
 
   void _drag(MazeNotifier notifier, Offset offset, int n, int m) {

@@ -144,7 +144,7 @@ class _MazePreferencesPopupState extends ConsumerState<MazePreferencesPopup> {
                       const Divider(),
                       _buildSlider(
                         "Walls",
-                        "${prefs.minCheckpoints} - ${prefs.maxCheckpoints}",
+                        "${prefs.minWalls} - ${prefs.maxWalls}",
                         RangeSlider(
                           values: RangeValues(
                             prefs.minWalls.toDouble(),
