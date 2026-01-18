@@ -4,7 +4,6 @@ import 'package:zipper/state/maze_notifier.dart';
 import 'package:zipper/state/maze_preferences_notifier.dart';
 import 'package:zipper/utils/point_utils.dart';
 
-import '../../utils/edge.dart';
 import 'maze_path_painter.dart';
 
 class MazeTile extends ConsumerWidget {

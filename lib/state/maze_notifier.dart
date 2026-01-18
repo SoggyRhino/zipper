@@ -2,7 +2,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:zipper/utils/point_utils.dart';
 import 'package:zipper/utils/edge.dart';
-import 'package:zipper/utils/moves.dart';
 
 part 'maze_notifier.freezed.dart';
 
